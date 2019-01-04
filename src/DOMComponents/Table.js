@@ -44,8 +44,6 @@ export default class Table extends DOMComponent {
       classNames = (DOM.props.className || '').split(/\s./).map(className => `.${className}`);
     }
 
-    console.log(headerRows, dataRows);
-
     return {
       table: {
         headerRows: headerRows.length,

@@ -12,13 +12,13 @@ PdfMake.vfs = PdfFonts.pdfMake.vfs;
  * @module GeneratedDocument
  */
 class GeneratedDocument {
-  constructor(docDefinition, settings) {
+  constructor(docDefinition, settings, mergedStyles) {
     this.doc = PdfMake.createPdf({
       content: docDefinition,
-      styles,
+      styles: mergedStyles,
       defaultStyle: defaultStyles,
     });
-    console.log('generate', docDefinition);
+
     this.documentName = settings.name || 'New Document.pdf';
   }
 
@@ -51,7 +51,11 @@ export default class PDFDocument extends Document {
   }
 
   static createDocument(docDefinition, props) {
-    return new GeneratedDocument(docDefinition, this.saveSettings(props));
+    const mergedStyles = {
+      ...styles,
+      ...this.styleSheet(),
+    };
+    return new GeneratedDocument(docDefinition, this.saveSettings(props), mergedStyles);
   }
 
   static createBuilder() {
