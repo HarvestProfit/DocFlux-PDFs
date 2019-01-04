@@ -1,0 +1,9 @@
+{
+    "plugins": ["plugins/markdown"],
+    "templates": {
+      "includeDate": false,
+      "linenums": true,
+      "systemName": "DocFlux Spreadsheets",
+      "theme": "simplex"
+    }
+}

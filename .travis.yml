@@ -1,0 +1,16 @@
+sudo: false
+dist: trusty
+language: node_js
+node_js:
+  - 8
+cache:
+  directories:
+  - node_modules
+script:
+  - yarn run test
+  - yarn run build
+after_script:
+  - yarn run report-coverage
+branches:
+  only:
+  - master
