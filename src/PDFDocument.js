@@ -37,10 +37,6 @@ class GeneratedDocument {
  */
 export default class PDFDocument extends Document {
   static documentSettings() {
-    return {};
-  }
-
-  static saveSettings() {
     return {
       name: 'New Document.pdf',
     };
@@ -55,7 +51,7 @@ export default class PDFDocument extends Document {
       ...styles,
       ...this.styleSheet(),
     };
-    return new GeneratedDocument(docDefinition, this.saveSettings(props), mergedStyles);
+    return new GeneratedDocument(docDefinition, this.documentSettings(props), mergedStyles);
   }
 
   static createBuilder() {

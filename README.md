@@ -1,17 +1,16 @@
 # DocFlux PDFs
-[![npm](https://img.shields.io/npm/v/@harvest-profit/doc-flux-pdfs.svg)](https://www.npmjs.com/package/@harvest-profit/doc-flux-pdfs)  [![Build Status](https://travis-ci.org/HarvestProfit/DocFlux-Spreadsheets.svg?branch=master)](https://travis-ci.org/HarvestProfit/DocFlux-Spreadsheets) [![Coverage Status](https://coveralls.io/repos/github/HarvestProfit/DocFlux-Spreadsheets/badge.svg?branch=master)](https://coveralls.io/github/HarvestProfit/DocFlux-Spreadsheets?branch=master) [![npm](https://img.shields.io/npm/l/@harvest-profit/doc-flux-pdfs.svg)](https://github.com/HarvestProfit/DocFlux-Spreadsheets/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/v/@harvest-profit/doc-flux-pdfs.svg)](https://www.npmjs.com/package/@harvest-profit/doc-flux-pdfs)  [![Build Status](https://travis-ci.org/HarvestProfit/DocFlux-PDFs.svg?branch=master)](https://travis-ci.org/HarvestProfit/DocFlux-PDFs) [![Coverage Status](https://coveralls.io/repos/github/HarvestProfit/DocFlux-PDFs/badge.svg?branch=master)](https://coveralls.io/github/HarvestProfit/DocFlux-PDFs?branch=master) [![npm](https://img.shields.io/npm/l/@harvest-profit/doc-flux-pdfs.svg)](https://github.com/HarvestProfit/DocFlux-PDFs/blob/master/LICENSE)
 
-Allows you to create jsPDF pdfs using [DocFlux](https://github.com/HarvestProfit/DocFlux).
+Allows you to create pdfMake pdfs using [DocFlux](https://github.com/HarvestProfit/DocFlux).
 
 ## Example
-This will generate a table with 2 rows in it with a table name (for XLSX) called People.
+This will generate a table with 2 rows in it.
 ```jsx
 import { DocFlux } from '@harvest-profit/doc-flux';
 /** @jsx DocFlux.createElement */
 
 export default ExampleComponent = () => (
   <table>
-    <tname>People</tname>
     <thead>
       <th>Name</th>
       <th>Age</th>
@@ -60,4 +59,4 @@ yarn publish
 ```
 
 ## License
-This project is [MIT licensed](https://github.com/HarvestProfit/DocFlux-Spreadsheets/blob/master/LICENSE)
+This project is [MIT licensed](https://github.com/HarvestProfit/DocFlux-PDFs/blob/master/LICENSE)

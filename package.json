@@ -1,7 +1,7 @@
 {
   "name": "@harvest-profit/doc-flux-pdfs",
   "version": "1.0.0",
-  "description": "jsPDF PDF parser for DocFlux",
+  "description": "pdfMake PDF parser for DocFlux",
   "main": "dist/index.js",
   "repository": "https://github.com/HarvestProfit/DocFlux-PDFs",
   "author": "Jake Humphrey <jake@harvestprofit.com>",
@@ -36,8 +36,8 @@
     "document",
     "flux",
     "doc-flux",
-    "excel",
-    "csv"
+    "pdf",
+    "pdfMake"
   ],
   "files": [
     "README.md",
@@ -63,12 +63,9 @@
     "jsdoc": "^3.5.5"
   },
   "dependencies": {
-    "@harvest-profit/doc-flux": "file:../DocFlux",
-    "jspdf": "^1.5.3",
-    "jspdf-autotable": "^2.3.5",
+    "@harvest-profit/doc-flux": "^1.0.0-beta.1",
     "lodash": "^4.17.4",
     "pdfmake": "^0.1.40",
-    "pdfmake-lite": "^0.1.38",
     "prop-types": "^15.6.0",
     "save-as": "^0.1.8"
   }

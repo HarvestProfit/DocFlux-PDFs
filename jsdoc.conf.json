@@ -3,7 +3,7 @@
     "templates": {
       "includeDate": false,
       "linenums": true,
-      "systemName": "DocFlux Spreadsheets",
+      "systemName": "DocFlux PDFs",
       "theme": "simplex"
     }
 }
