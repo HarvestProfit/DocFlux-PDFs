@@ -22,7 +22,8 @@ export default class Table extends DOMComponent {
     let dataRows = [];
     let headerRows = [];
     let heights = [];
-    let widths = [];
+    let widths = {};
+    let colCount = 0;
     for (let i = 0; i < DOM.value.length; i += 1) {
       const child = DOM.value[i];
       if (typeof child === 'number') {
@@ -38,12 +39,16 @@ export default class Table extends DOMComponent {
           ];
           heights = [
             ...heights,
-            header.height || '',
+            header.height || 'auto',
           ];
-          widths = [
+          widths = {
             ...widths,
-            header.width || '*',
-          ];
+            ...header.widths,
+          };
+
+          if (header.colCount > colCount) {
+            ({ colCount } = header);
+          }
         } else if (child.ref instanceof TableBody) {
           const body = child.ref.constructor.transform(child, variables);
           dataRows = [
@@ -55,15 +60,25 @@ export default class Table extends DOMComponent {
             ...heights,
             ...body.heights,
           ];
-          widths = [
+
+          widths = {
             ...widths,
             ...body.widths,
-          ];
+          };
+
+          if (body.colCount > colCount) {
+            ({ colCount } = body);
+          }
         }
       }
     }
 
     const classNames = getClassNames(DOM);
+
+    const finalWidths = [];
+    for (let i = 0; i < colCount; i += 1) {
+      finalWidths.push(widths[i] || '*');
+    }
 
     return {
       table: {
@@ -72,7 +87,7 @@ export default class Table extends DOMComponent {
           ...headerRows,
           ...dataRows,
         ],
-        widths,
+        widths: finalWidths,
         heights,
       },
       style: [...classNames, `_${DOM.elementName}`, DOM.elementName],

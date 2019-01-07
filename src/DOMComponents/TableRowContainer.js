@@ -15,45 +15,72 @@ export default class TableRowContainer extends DOMComponent {
 
   static transform(DOM, variables = {}) {
     const cells = [];
+    const widths = {};
     for (let i = 0; i < DOM.value.length; i += 1) {
       const child = DOM.value[i];
       if (child.ref) {
         cells.push(child.ref.constructor.transform(child, variables));
-        if (['td', 'th'].indexOf(child.elementName) >= 0 && child.props.colSpan) {
+        if (child.props.width) widths[i] = child.props.width;
+      }
+    }
+
+    return {
+      rows: cells,
+      height: DOM.props.height || 'auto',
+      widths,
+    };
+  }
+}
+
+export class TableHeader extends TableRowContainer {
+  static transform(DOM, variables = {}) {
+    const cells = [];
+    const widths = {};
+    let colCount = 0;
+    for (let i = 0; i < DOM.value.length; i += 1) {
+      const child = DOM.value[i];
+      if (child.ref) {
+        cells.push(child.ref.constructor.transform(child, variables));
+        if (child.props.width) widths[i] = child.props.width;
+        if (child.props.colSpan) {
           for (let col = 1; col < child.props.colSpan; col += 1) {
             cells.push('');
           }
         }
+      }
+
+      if (cells.length > colCount) {
+        colCount = cells.length;
       }
     }
 
     return {
       rows: cells,
       height: DOM.props.height,
-      width: DOM.props.width,
+      widths,
+      colCount,
     };
   }
 }
-
-export class TableHeader extends TableRowContainer {}
 export class TableBody extends TableRowContainer {
   static transform(DOM, variables = {}) {
     const rows = [];
     const heights = [];
-    const widths = [];
+    let widths = {};
+    let colCount = 0;
     for (let i = 0; i < DOM.value.length; i += 1) {
       const child = DOM.value[i];
       if (child.ref) {
         const row = child.ref.constructor.transform(child, variables);
         rows.push(row.rows);
-        heights.push(row.height || '');
-        widths.push(row.width || '*');
-        if (['td', 'th'].indexOf(child.elementName) >= 0 && child.props.colSpan) {
-          for (let col = 1; col < child.props.colSpan; col += 1) {
-            rows.push('');
-            heights.push('');
-            widths.push('*');
-          }
+        heights.push(row.height || 'auto');
+        widths = {
+          ...widths,
+          ...row.widths,
+        };
+
+        if (row.rows.length > colCount) {
+          colCount = row.rows.length;
         }
       }
     }
@@ -62,6 +89,7 @@ export class TableBody extends TableRowContainer {
       rows,
       heights,
       widths,
+      colCount,
     };
   }
 }
