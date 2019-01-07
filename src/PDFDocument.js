@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { Document } from '@harvest-profit/doc-flux';
 import PdfMake from 'pdfmake/build/pdfmake';
 import PdfFonts from 'pdfmake/build/vfs_fonts';
@@ -12,12 +13,17 @@ PdfMake.vfs = PdfFonts.pdfMake.vfs;
  * @module GeneratedDocument
  */
 class GeneratedDocument {
-  constructor(docDefinition, settings, mergedStyles) {
-    this.doc = PdfMake.createPdf({
+  constructor(docDefinition, settings, mergedStyles, tableLayouts) {
+    const finalDocDefinition = {
       content: docDefinition,
       styles: mergedStyles,
       defaultStyle: defaultStyles,
-    });
+      ..._.pick(settings, ['pageSize', 'pageOrientation', 'pageMargins', 'background', 'info']),
+    };
+    if (docDefinition.header) finalDocDefinition.header = docDefinition.header;
+    if (docDefinition.footer) finalDocDefinition.footer = docDefinition.footer;
+
+    this.doc = PdfMake.createPdf(finalDocDefinition, tableLayouts);
 
     this.documentName = settings.name || 'New Document.pdf';
   }
@@ -46,12 +52,22 @@ export default class PDFDocument extends Document {
     return {};
   }
 
+  static tableLayouts() {
+    return {
+      zebra: {
+        fillColor: rowIndex => ((rowIndex % 2 === 0) ? '#CCCCCC' : null),
+      },
+    };
+  }
+
   static createDocument(docDefinition, props) {
     const mergedStyles = {
       ...styles,
       ...this.styleSheet(),
     };
-    return new GeneratedDocument(docDefinition, this.documentSettings(props), mergedStyles);
+    return new GeneratedDocument(
+      docDefinition, this.documentSettings(props), mergedStyles, this.tableLayouts(),
+    );
   }
 
   static createBuilder() {

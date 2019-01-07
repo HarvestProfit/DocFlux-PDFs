@@ -16,6 +16,7 @@ export default class PageBreak extends DOMComponent {
       };
     }
     return {
+      text: '',
       pageBreak: 'after',
     };
   }

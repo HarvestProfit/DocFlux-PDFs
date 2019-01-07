@@ -13,23 +13,55 @@ export default class TableRowContainer extends DOMComponent {
     return this.props.children;
   }
 
-  static transform(DOM) {
-    const rows = [];
+  static transform(DOM, variables = {}) {
+    const cells = [];
     for (let i = 0; i < DOM.value.length; i += 1) {
       const child = DOM.value[i];
       if (child.ref) {
-        rows.push(child.ref.constructor.transform(child));
+        cells.push(child.ref.constructor.transform(child, variables));
         if (['td', 'th'].indexOf(child.elementName) >= 0 && child.props.colSpan) {
           for (let col = 1; col < child.props.colSpan; col += 1) {
-            rows.push('');
+            cells.push('');
           }
         }
       }
     }
 
-    return rows;
+    return {
+      rows: cells,
+      height: DOM.props.height,
+      width: DOM.props.width,
+    };
   }
 }
 
 export class TableHeader extends TableRowContainer {}
-export class TableBody extends TableRowContainer {}
+export class TableBody extends TableRowContainer {
+  static transform(DOM, variables = {}) {
+    const rows = [];
+    const heights = [];
+    const widths = [];
+    for (let i = 0; i < DOM.value.length; i += 1) {
+      const child = DOM.value[i];
+      if (child.ref) {
+        const row = child.ref.constructor.transform(child, variables);
+        rows.push(row.rows);
+        heights.push(row.height || '');
+        widths.push(row.width || '*');
+        if (['td', 'th'].indexOf(child.elementName) >= 0 && child.props.colSpan) {
+          for (let col = 1; col < child.props.colSpan; col += 1) {
+            rows.push('');
+            heights.push('');
+            widths.push('*');
+          }
+        }
+      }
+    }
+
+    return {
+      rows,
+      heights,
+      widths,
+    };
+  }
+}

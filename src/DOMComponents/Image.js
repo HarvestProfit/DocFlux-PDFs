@@ -1,5 +1,7 @@
 import { DOMComponent } from '@harvest-profit/doc-flux';
-
+import {
+  getClassNames,
+} from './Utilities';
 /**
  * Renders text.
  */
@@ -9,14 +11,11 @@ export default class Image extends DOMComponent {
   }
 
   static transform(DOM) {
-    let classNames = [];
-    if ((DOM.props.className || '').trim().length > 0) {
-      classNames = (DOM.props.className || '').split(/\s./).map(className => `.${className}`);
-    }
+    const classNames = getClassNames(DOM);
 
     return {
-      image: DOM.props.src,
-      style: [...classNames, DOM.elementName],
+      image: DOM.props.src.trim(),
+      style: [...classNames, `_${DOM.elementName}`, DOM.elementName],
       ...DOM.props.style || {},
     };
   }

@@ -4,31 +4,44 @@ export const defaultStyles = {
 };
 
 export default {
-  h1: {
+  _h1: {
     fontSize: 24,
     bold: true,
   },
-  h2: {
+  _h2: {
     fontSize: 20,
     bold: true,
   },
-  h3: {
+  _h3: {
     fontSize: 18,
     bold: true,
   },
-  h4: {
+  _h4: {
     fontSize: 16,
     bold: true,
   },
-  h5: {
+  _h5: {
     fontSize: 14,
     bold: true,
   },
-  h6: {
+  _h6: {
     fontSize: 12,
     bold: true,
   },
-  p: {
+  _p: {
     fontSize: 12,
+  },
+  _small: {
+    fontSize: 10,
+  },
+  _b: {
+    bold: true,
+  },
+  _em: {
+    italics: true,
+  },
+  _a: {
+    decoration: 'underline',
+    color: 'blue',
   },
 };
