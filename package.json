@@ -1,6 +1,6 @@
 {
   "name": "@harvest-profit/doc-flux-pdfs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "pdfMake PDF parser for DocFlux",
   "main": "dist/index.js",
   "repository": "https://github.com/HarvestProfit/DocFlux-PDFs",

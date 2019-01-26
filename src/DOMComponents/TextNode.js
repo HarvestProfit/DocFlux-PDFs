@@ -71,7 +71,7 @@ export default class TextNode extends DOMComponent {
 
     const value = {
       [stackName]: stack,
-      style: [...classNames, `_${DOM.elementName}`, DOM.elementName],
+      style: [`_${DOM.elementName}`, DOM.elementName, ...classNames],
       ...style,
       ...options,
     };
