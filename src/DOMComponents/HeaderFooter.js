@@ -49,7 +49,7 @@ export default class HeaderFooter extends DOMComponent {
 
       return {
         [stackName]: stack,
-        style: [...classNames, `_${DOM.elementName}`, DOM.elementName],
+        style: [`_${DOM.elementName}`, DOM.elementName, ...classNames],
         ...style,
       };
     };

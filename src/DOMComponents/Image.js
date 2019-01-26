@@ -15,7 +15,7 @@ export default class Image extends DOMComponent {
 
     return {
       image: DOM.props.src.trim(),
-      style: [...classNames, `_${DOM.elementName}`, DOM.elementName],
+      style: [`_${DOM.elementName}`, DOM.elementName, ...classNames],
       ...DOM.props.style || {},
     };
   }

@@ -90,7 +90,7 @@ export default class Table extends DOMComponent {
         widths: finalWidths,
         heights,
       },
-      style: [...classNames, `_${DOM.elementName}`, DOM.elementName],
+      style: [`_${DOM.elementName}`, DOM.elementName, ...classNames],
       ...DOM.props.style || {},
     };
   }

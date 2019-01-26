@@ -6,7 +6,7 @@ export function parseText(child, variables) {
 export function getClassNames(DOM) {
   let classNames = [];
   if ((DOM.props.className || '').trim().length > 0) {
-    classNames = (DOM.props.className || '').split(/\s./);
+    classNames = (DOM.props.className || '').split(/\s*\s\s*/);
   }
   return classNames;
 }
