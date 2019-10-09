@@ -108,10 +108,10 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@harvest-profit/doc-flux@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@harvest-profit/doc-flux/-/doc-flux-1.0.1.tgz#d86e2ae74f94ad331014cdab42f89584408adf4d"
-  integrity sha512-q70nEsL+hNZwjX0wXLEwx/1Cf9cFhJVF2/twQuCE/r4QJHYS3ioeCJuZfjWLWv7xb1Vv9haysRflXB84ksAKdQ==
+"@harvest-profit/doc-flux@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@harvest-profit/doc-flux/-/doc-flux-1.1.1.tgz#dc49927bcec322afb8617bd4576147e75456fd99"
+  integrity sha512-hwE7lwqazxs6aZYuev0S5BUnftdKHoGU7hkoJKDWXL+0pfY7b+WFyMHjN96m+1Y+m7b7uR6IDfi+wv9butGKOw==
   dependencies:
     lodash "^4.17.11"
     prop-types "^15.7.2"
