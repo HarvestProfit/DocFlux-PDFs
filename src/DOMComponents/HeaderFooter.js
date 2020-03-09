@@ -19,6 +19,8 @@ export default class HeaderFooter extends DOMComponent {
 
   static transform(DOM, variables = {}) {
     return (currentPage, pageCount) => {
+      if (DOM.props.excludePage && DOM.props.excludePage === currentPage) return {};
+      if (DOM.props.includePage && DOM.props.includePage !== currentPage) return {};
       const stack = [];
       for (let i = 0; i < DOM.value.length; i += 1) {
         const child = DOM.value[i];
@@ -29,6 +31,8 @@ export default class HeaderFooter extends DOMComponent {
             parseText(child, variables),
           );
         } else if (child.ref) {
+          if (child.props.excludePage && child.props.excludePage === currentPage) continue;
+          if (child.props.includePage && child.props.includePage !== currentPage) continue;
           stack.push(child.ref.constructor.transform(child, {
             ...variables, currentPage, pageCount,
           }));
