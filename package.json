@@ -2,7 +2,7 @@
   "name": "@harvest-profit/doc-flux-pdfs",
   "version": "1.0.5",
   "description": "pdfMake PDF parser for DocFlux",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "repository": "https://github.com/HarvestProfit/DocFlux-PDFs",
   "author": "Jake Humphrey <jake@harvestprofit.com>",
   "contributors": [],
@@ -41,7 +41,8 @@
   ],
   "files": [
     "README.md",
-    "dist"
+    "dist",
+    "src"
   ],
   "devDependencies": {
     "babel-cli": "^6.26.0",
