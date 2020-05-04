@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { Document } from '@harvest-profit/doc-flux';
-import * as PdfMake from 'pdfmake/build/pdfmake';
-import * as PdfFonts from 'pdfmake/build/vfs_fonts';
+import PdfMake from 'pdfmake/build/pdfmake';
+import PdfFonts from 'pdfmake/build/vfs_fonts';
 import Parser from './Parser';
 
 import styles, { defaultStyles } from './styles';
