@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import { Document } from '@harvest-profit/doc-flux';
-import PdfMake from 'pdfmake/build/pdfmake';
-import PdfFonts from 'pdfmake/build/vfs_fonts';
-import Parser from './Parser';
 
+import Parser from './Parser';
 import styles, { defaultStyles } from './styles';
+
+const PdfMake = require('pdfmake/build/pdfmake.js');
+const PdfFonts = require('pdfmake/build/vfs_fonts.js');
 
 PdfMake.vfs = PdfFonts.pdfMake.vfs;
 
