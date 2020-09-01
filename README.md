@@ -12,8 +12,8 @@ import { DocFlux } from '@harvest-profit/doc-flux';
 export default ExampleComponent = () => (
   <table>
     <thead>
-      <th>Name</th>
-      <th>Age</th>
+      <th className="font-weight-bold">Name</th>
+      <th className="differentFont">Age</th>
     </thead>
     <tbody>
       <tr>
@@ -28,6 +28,86 @@ export default ExampleComponent = () => (
   </table>
 );
 ```
+
+## Document Example
+```jsx
+const style = {
+  fonts: {
+    Roboto: {
+    normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+    bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
+    italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+    bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
+    },
+    OtherFont: {
+      normal: 'urltootherfont',
+    },
+  },
+  css: {
+    differentFont: {
+      color: 'blue',
+      font: 'OtherFont',
+      bold: false
+    },
+    'font-weight-bold': {
+      bold: true,
+    },
+  },
+  default: {
+    font: 'Roboto',
+    fontSize: 10,
+    color: '#333333',
+  },
+};
+
+class ExampleDoc extends PDFDocument {
+  static propTypes = {
+    name: PropTypes.string.isRequired,
+  }
+
+  static documentStyling = style;
+
+  static documentSettings(props) {
+    return {
+      name: props.name,
+      pageMargins: [30, 55, 30, 40],
+      info: {
+        title: 'Sample Document',
+        author: 'john doe',
+        subject: 'Sampling Document Building',
+        keywords: 'sample',
+        creator: 'Harvest Profit',
+        producer: 'Harvest Profit',
+      },
+    };
+  }
+
+  // Override this method to log document definition for debugging
+  // static createDocument(docDefinition) {
+  //   console.log(docDefinition);
+  // }
+
+  static component = ExampleComponent;
+}
+
+const doc = ExampleDoc.create({
+  name: 'sample.pdf',
+  names: ['John', 'Jill'],
+  ages: [24, 25],
+});
+
+doc.download();
+// You can also just open this in the browser via
+// doc.open();
+
+```
+
+## Styling and Configuration
+Styling can be a bit tricky (mostly layout stuff like columns). You can use [pdfmake playground](http://pdfmake.org/playground.html) to try out the styling.
+
+Be sure to check out the documentation for PDFMake on what other styling and font
+things you can do. You can always use a `<raw data={...pdfmakeJSON} />` component
+to gain access to the PDFmake api.
 
 ## Development
 [Clone](https://help.github.com/articles/cloning-a-repository/) this repo, and begin committing changes. PRs are preferred over committing directly to master.
