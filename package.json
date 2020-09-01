@@ -1,6 +1,6 @@
 {
   "name": "@harvest-profit/doc-flux-pdfs",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "pdfMake PDF parser for DocFlux",
   "main": "dist/index.js",
   "repository": "https://github.com/HarvestProfit/DocFlux-PDFs",
@@ -74,7 +74,7 @@
     "jsdoc": "^3.5.5"
   },
   "dependencies": {
-    "@harvest-profit/doc-flux": "^1.1.2",
+    "@harvest-profit/doc-flux": "^1.1.3",
     "pdfmake": "^0.1.68",
     "prop-types": "^15.7.2",
     "save-as": "^0.1.8"
