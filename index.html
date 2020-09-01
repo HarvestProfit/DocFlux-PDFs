@@ -93,17 +93,19 @@
 
 
     <section class="readme-section">
-        <article><h1>DocFlux PDFs</h1><p><a href="https://www.npmjs.com/package/@harvest-profit/doc-flux-pdfs"><img src="https://img.shields.io/npm/v/@harvest-profit/doc-flux-pdfs.svg" alt="npm"></a>  <a href="https://travis-ci.org/HarvestProfit/DocFlux-PDFs"><img src="https://travis-ci.org/HarvestProfit/DocFlux-PDFs.svg?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/github/HarvestProfit/DocFlux-PDFs?branch=master"><img src="https://coveralls.io/repos/github/HarvestProfit/DocFlux-PDFs/badge.svg?branch=master" alt="Coverage Status"></a> <a href="https://github.com/HarvestProfit/DocFlux-PDFs/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/@harvest-profit/doc-flux-pdfs.svg" alt="npm"></a></p>
+        <article><h1>DocFlux PDFs</h1>
+<p><a href="https://www.npmjs.com/package/@harvest-profit/doc-flux-pdfs"><img src="https://img.shields.io/npm/v/@harvest-profit/doc-flux-pdfs.svg" alt="npm"></a>  <a href="https://travis-ci.org/HarvestProfit/DocFlux-PDFs"><img src="https://travis-ci.org/HarvestProfit/DocFlux-PDFs.svg?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/github/HarvestProfit/DocFlux-PDFs?branch=master"><img src="https://coveralls.io/repos/github/HarvestProfit/DocFlux-PDFs/badge.svg?branch=master" alt="Coverage Status"></a> <a href="https://github.com/HarvestProfit/DocFlux-PDFs/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/@harvest-profit/doc-flux-pdfs.svg" alt="npm"></a></p>
 <p>Allows you to create pdfMake pdfs using <a href="https://github.com/HarvestProfit/DocFlux">DocFlux</a>.</p>
-<h2>Example</h2><p>This will generate a table with 2 rows in it.</p>
+<h2>Example</h2>
+<p>This will generate a table with 2 rows in it.</p>
 <pre class="prettyprint source lang-jsx"><code>import { DocFlux } from '@harvest-profit/doc-flux';
 /** @jsx DocFlux.createElement */
 
 export default ExampleComponent = () => (
   &lt;table>
     &lt;thead>
-      &lt;th>Name&lt;/th>
-      &lt;th>Age&lt;/th>
+      &lt;th className=&quot;font-weight-bold&quot;>Name&lt;/th>
+      &lt;th className=&quot;differentFont&quot;>Age&lt;/th>
     &lt;/thead>
     &lt;tbody>
       &lt;tr>
@@ -116,18 +118,106 @@ export default ExampleComponent = () => (
       &lt;/tr>
     &lt;/tbody>
   &lt;/table>
-);</code></pre><h2>Development</h2><p><a href="https://help.github.com/articles/cloning-a-repository/">Clone</a> this repo, and begin committing changes. PRs are preferred over committing directly to master.</p>
+);
+</code></pre>
+<h2>Document Example</h2>
+<pre class="prettyprint source lang-jsx"><code>const style = {
+  fonts: {
+    Roboto: {
+    normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+    bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
+    italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+    bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
+    },
+    OtherFont: {
+      normal: 'urltootherfont',
+    },
+  },
+  css: {
+    differentFont: {
+      color: 'blue',
+      font: 'OtherFont',
+      bold: false
+    },
+    'font-weight-bold': {
+      bold: true,
+    },
+  },
+  default: {
+    font: 'Roboto',
+    fontSize: 10,
+    color: '#333333',
+  },
+};
+
+class ExampleDoc extends PDFDocument {
+  static propTypes = {
+    name: PropTypes.string.isRequired,
+  }
+
+  static documentStyling = style;
+
+  static documentSettings(props) {
+    return {
+      name: props.name,
+      pageMargins: [30, 55, 30, 40],
+      info: {
+        title: 'Sample Document',
+        author: 'john doe',
+        subject: 'Sampling Document Building',
+        keywords: 'sample',
+        creator: 'Harvest Profit',
+        producer: 'Harvest Profit',
+      },
+    };
+  }
+
+  // Override this method to log document definition for debugging
+  // static createDocument(docDefinition) {
+  //   console.log(docDefinition);
+  // }
+
+  static component = ExampleComponent;
+}
+
+const doc = ExampleDoc.create({
+  name: 'sample.pdf',
+  names: ['John', 'Jill'],
+  ages: [24, 25],
+});
+
+doc.download();
+// You can also just open this in the browser via
+// doc.open();
+
+</code></pre>
+<h2>Styling and Configuration</h2>
+<p>Styling can be a bit tricky (mostly layout stuff like columns). You can use <a href="http://pdfmake.org/playground.html">pdfmake playground</a> to try out the styling.</p>
+<p>Be sure to check out the documentation for PDFMake on what other styling and font
+things you can do. You can always use a <code>&lt;raw data={...pdfmakeJSON} /&gt;</code> component
+to gain access to the PDFmake api.</p>
+<h2>Development</h2>
+<p><a href="https://help.github.com/articles/cloning-a-repository/">Clone</a> this repo, and begin committing changes. PRs are preferred over committing directly to master.</p>
 <p>To run tests locally on your machine, run the following:</p>
-<pre class="prettyprint source lang-bash"><code>yarn run test</code></pre><p>To preview documentation locally on your machine, run the following:</p>
-<pre class="prettyprint source lang-bash"><code>yarn run build-docs</code></pre><p>After merging your pull request, consider updating the documentation with the following command:</p>
-<pre class="prettyprint source lang-bash"><code>yarn run publish-docs</code></pre><p>To deploy a new version to NPM, bump the version number, commit/merge to <code>master</code>, and run the following:</p>
+<pre class="prettyprint source lang-bash"><code>yarn run test
+</code></pre>
+<p>To preview documentation locally on your machine, run the following:</p>
+<pre class="prettyprint source lang-bash"><code>yarn run build-docs
+</code></pre>
+<p>After merging your pull request, consider updating the documentation with the following command:</p>
+<pre class="prettyprint source lang-bash"><code>yarn run publish-docs
+</code></pre>
+<p>To deploy a new version to NPM, bump the version number, commit/merge to <code>master</code>, and run the following:</p>
 <pre class="prettyprint source lang-bash"><code>yarn run clean
 yarn run build
 
 # Either NPM
 npm publish
 # Or Yarn, they do the same thing
-yarn publish</code></pre><h2>License</h2><p>This project is <a href="https://github.com/HarvestProfit/DocFlux-PDFs/blob/master/LICENSE">MIT licensed</a></p></article>
+yarn publish
+</code></pre>
+<h2>License</h2>
+<p>This project is <a href="https://github.com/HarvestProfit/DocFlux-PDFs/blob/master/LICENSE">MIT licensed</a></p></article>
     </section>
 
 
@@ -171,7 +261,7 @@ yarn publish</code></pre><h2>License</h2><p>This project is <a href="https://git
 
 
 <span class="jsdoc-message">
-	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a>
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
