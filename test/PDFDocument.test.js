@@ -19,6 +19,7 @@ const SimpleComponent = () => (
 
 class Doc extends PDFDocument {
   static component = SimpleComponent;
+
   static documentSettings(props) {
     return {
       name: props.name,

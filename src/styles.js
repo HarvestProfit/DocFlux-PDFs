@@ -1,6 +1,7 @@
 export const defaultStyles = {
   fontSize: 12,
   color: '#000000',
+  font: 'Roboto',
 };
 
 export default {

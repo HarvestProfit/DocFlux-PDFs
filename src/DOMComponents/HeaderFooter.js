@@ -1,9 +1,9 @@
-import _ from 'lodash';
 import { DOMComponent } from '@harvest-profit/doc-flux';
 import PropTypes from 'prop-types';
 import {
   parseText,
   getClassNames,
+  pick,
 } from './Utilities';
 /**
  * Renders a page break in the PDF
@@ -48,7 +48,7 @@ export default class HeaderFooter extends DOMComponent {
 
       const style = {
         ...DOM.props.style || {},
-        ..._.pick(DOM.props, []),
+        ...pick(DOM.props, []),
       };
 
       return {

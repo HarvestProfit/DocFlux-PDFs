@@ -7,7 +7,6 @@ import Variable from './DOMComponents/Variable';
 import { Header, Footer } from './DOMComponents/HeaderFooter';
 import TableRowContainer, { TableHeader, TableBody } from './DOMComponents/TableRowContainer';
 
-
 export default {
   br: PageBreak,
   div: TextNode,
