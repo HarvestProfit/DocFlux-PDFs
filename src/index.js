@@ -1,7 +1,9 @@
 import Parser from './Parser';
-import Document from './PDFDocument';
+import Document, { Roboto, tableLayouts } from './PDFDocument';
 
 export {
   Parser,
   Document,
+  Roboto,
+  tableLayouts,
 };
