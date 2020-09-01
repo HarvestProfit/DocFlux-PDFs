@@ -982,12 +982,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@harvest-profit/doc-flux@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@harvest-profit/doc-flux/-/doc-flux-1.1.1.tgz#dc49927bcec322afb8617bd4576147e75456fd99"
-  integrity sha512-hwE7lwqazxs6aZYuev0S5BUnftdKHoGU7hkoJKDWXL+0pfY7b+WFyMHjN96m+1Y+m7b7uR6IDfi+wv9butGKOw==
+"@harvest-profit/doc-flux@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@harvest-profit/doc-flux/-/doc-flux-1.1.2.tgz#80df9c0941c66bfe31297dd1b99dba37602fc376"
+  integrity sha512-DdtZTgJqNOTyA8Bk/7VtGVfBmAPf9oyeaF8CF4fusjhgJAzhurjj+sZsCvgq3RxGHvxd2JTN/g908cPfJlwj6w==
   dependencies:
-    lodash "^4.17.11"
     prop-types "^15.7.2"
 
 "@istanbuljs/load-nyc-config@^1.0.0":
@@ -4585,7 +4584,7 @@ lodash.sortby@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
   integrity sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
 
-lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19:
+lodash@^4.17.10, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==

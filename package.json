@@ -74,7 +74,7 @@
     "jsdoc": "^3.5.5"
   },
   "dependencies": {
-    "@harvest-profit/doc-flux": "^1.1.1",
+    "@harvest-profit/doc-flux": "^1.1.2",
     "pdfmake": "^0.1.68",
     "prop-types": "^15.7.2",
     "save-as": "^0.1.8"
