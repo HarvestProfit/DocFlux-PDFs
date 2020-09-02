@@ -1,9 +1,12 @@
 import Parser from './Parser';
-import Document, { Roboto, tableLayouts } from './PDFDocument';
+import ClientDocument from './Client';
+import ServerDocument from './Server';
 
+// Deprecated
+const Document = ClientDocument;
 export {
   Parser,
   Document,
-  Roboto,
-  tableLayouts,
+  ClientDocument,
+  ServerDocument,
 };

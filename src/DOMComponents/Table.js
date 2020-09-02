@@ -91,6 +91,7 @@ export default class Table extends DOMComponent {
         heights,
       },
       style: [`_${DOM.elementName}`, DOM.elementName, ...classNames],
+      layout: DOM.props.layout || 'default',
       ...DOM.props.style || {},
     };
   }

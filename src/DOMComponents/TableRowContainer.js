@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types';
 import { DOMComponent } from '@harvest-profit/doc-flux';
 
+function stringOrNumber(value) {
+  if (value.match(/^\d+$/)) return parseFloat(value);
+  return value;
+}
+
 /**
  * Renders text.
  */
@@ -20,13 +25,13 @@ export default class TableRowContainer extends DOMComponent {
       const child = DOM.value[i];
       if (child.ref) {
         cells.push(child.ref.constructor.transform(child, variables));
-        if (child.props.width) widths[i] = child.props.width;
+        if (child.props.width) widths[i] = stringOrNumber(child.props.width);
       }
     }
 
     return {
       rows: cells,
-      height: DOM.props.height || 'auto',
+      height: stringOrNumber(DOM.props.height || 'auto'),
       widths,
     };
   }
@@ -41,7 +46,8 @@ export class TableHeader extends TableRowContainer {
       const child = DOM.value[i];
       if (child.ref) {
         cells.push(child.ref.constructor.transform(child, variables));
-        if (child.props.width) widths[i] = child.props.width;
+        if (child.props.width) widths[i] = stringOrNumber(child.props.width);
+
         if (child.props.colSpan) {
           for (let col = 1; col < child.props.colSpan; col += 1) {
             cells.push('');
@@ -56,7 +62,7 @@ export class TableHeader extends TableRowContainer {
 
     return {
       rows: cells,
-      height: DOM.props.height,
+      height: stringOrNumber(DOM.props.height || 'auto'),
       widths,
       colCount,
     };
