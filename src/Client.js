@@ -1,4 +1,4 @@
-import 'pdfmake/build/pdfmake';
+import 'pdfmake/build/pdfmake'; // not sure why but in some versions of Babel/Webpack, pdfmake will not import unless done this way.
 import PDFDocument from './PDFDocument';
 
 /**
