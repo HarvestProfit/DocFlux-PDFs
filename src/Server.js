@@ -30,14 +30,6 @@ class ServerBundlePDFDocument {
     this.documentName = documentTheme.name || 'New Document.pdf';
   }
 
-  download() {
-    this.doc.download(this.documentName);
-  }
-
-  open() {
-    this.doc.open();
-  }
-
   saveTo(directory) {
     this.doc.pipe(fs.createWriteStream(`${directory}/${this.documentName}`));
     this.doc.end();
