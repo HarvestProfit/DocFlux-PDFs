@@ -1,63 +1,93 @@
+/* eslint-disable max-len */
 import { Document } from '@harvest-profit/doc-flux';
-import PdfMake from 'pdfmake/build/pdfmake';
 import Parser from './Parser';
-import { pick } from './DOMComponents/Utilities';
 
-import styles, { defaultStyles } from './styles';
+import {
+  ThemeDefinition, baseStyles, defaultStyles, tableLayouts,
+} from './Theme';
 
-/**
- * The generated document object.  Just call download
- * @module GeneratedDocument
- */
-class GeneratedDocument {
-  constructor(docDefinition, settings, documentStyling) {
-    const restOfSettings = pick(settings, ['pageSize', 'pageOrientation', 'pageMargins', 'background', 'info']);
-    const finalDocDefinition = {
-      content: docDefinition,
-      styles: documentStyling.css,
-      defaultStyle: documentStyling.default,
-      ...restOfSettings,
-    };
-    if (docDefinition.header) finalDocDefinition.header = docDefinition.header;
-    if (docDefinition.footer) finalDocDefinition.footer = docDefinition.footer;
-
-    this.doc = PdfMake.createPdf(
-      finalDocDefinition,
-      documentStyling.tableLayouts,
-      documentStyling.fonts,
-    );
-
-    this.documentName = settings.name || 'New Document.pdf';
-  }
-
-  download() {
-    this.doc.download(this.documentName);
-  }
-
-  open() {
-    this.doc.open();
-  }
-}
-
-export const Roboto = {
-  normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
-  bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-  italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-  bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf',
-};
-
-export const tableLayouts = {
-  zebra: {
-    fillColor: (rowIndex) => ((rowIndex % 2 === 0) ? '#CCCCCC' : null),
-  },
-};
-
-const defaultDocumentStyling = {
-  css: styles,
-  fonts: { Roboto },
-  default: defaultStyles,
+const defaultDocumentTheme = {
+  name: 'New Document',
+  pageMargins: [40, 40, 40, 40],
+  pageOrientation: 'portrait',
+  pageSize: 'A4',
+  css: baseStyles,
+  defaultStyle: defaultStyles,
   tableLayouts,
 };
+
+function buildDocumentTheme(documentStyling, deprecatedSupport = {}) {
+  const docStyling = defaultDocumentTheme;
+  const definedDocStyling = documentStyling || {};
+  docStyling.fonts = definedDocStyling.fonts || docStyling.fonts;
+  docStyling.images = definedDocStyling.images || docStyling.images;
+  docStyling.defaultStyle = definedDocStyling.defaultStyle || docStyling.defaultStyle;
+  if (!docStyling.defaultStyle.font) {
+    const availableFonts = Object.keys(docStyling.fonts);
+    if (availableFonts.length > 0) {
+      /* eslint-disable prefer-destructuring */
+      docStyling.defaultStyle.font = availableFonts[0];
+    } else {
+      docStyling.defaultStyle.font = 'Roboto';
+    }
+  }
+  docStyling.tableLayouts = definedDocStyling.tableLayouts || deprecatedSupport.tableLayouts || docStyling.tableLayouts;
+  docStyling.css = {
+    ...docStyling.css || {},
+    ...deprecatedSupport.css || {},
+    ...definedDocStyling.css || {},
+  };
+
+  const deprecatedSettings = deprecatedSupport.settings || {};
+  docStyling.name = definedDocStyling.name || deprecatedSettings.name || docStyling.name;
+  docStyling.pageMargins = definedDocStyling.pageMargins || deprecatedSettings.pageMargins || docStyling.pageMargins;
+  docStyling.pageOrientation = definedDocStyling.pageOrientation || deprecatedSettings.pageOrientation || docStyling.pageOrientation;
+  docStyling.pageSize = definedDocStyling.pageSize || deprecatedSettings.pageSize || docStyling.pageSize;
+  docStyling.background = definedDocStyling.background || deprecatedSettings.background || docStyling.background;
+  docStyling.info = {
+    ...docStyling.info || {},
+    ...deprecatedSettings.info || {},
+    ...definedDocStyling.info || {},
+  };
+
+  docStyling.info.title = docStyling.info.title || docStyling.name;
+
+  docStyling.header = definedDocStyling.header || deprecatedSettings.header || docStyling.header;
+  docStyling.footer = definedDocStyling.footer || deprecatedSettings.footer || docStyling.footer;
+  docStyling.compress = definedDocStyling.compress || deprecatedSettings.compress || docStyling.compress;
+  docStyling.watermark = definedDocStyling.watermark || deprecatedSettings.watermark || docStyling.watermark;
+  docStyling.pageBreakBefore = definedDocStyling.pageBreakBefore || deprecatedSettings.pageBreakBefore || docStyling.pageBreakBefore;
+  docStyling.userPassword = definedDocStyling.userPassword || deprecatedSettings.userPassword || docStyling.userPassword;
+  docStyling.ownerPassword = definedDocStyling.ownerPassword || deprecatedSettings.ownerPassword || docStyling.ownerPassword;
+  docStyling.permissions = {
+    ...docStyling.permissions || {},
+    ...deprecatedSettings.permissions || {},
+    ...definedDocStyling.permissions || {},
+  };
+
+  return docStyling;
+}
+
+const deprecatedWarnings = {};
+function deprecated(method, message) {
+  if (deprecatedWarnings[method]) return;
+  /* eslint-disable-next-line no-console */
+  console.warn(`${method} is deprecated: ${message}`);
+  deprecatedWarnings[method] = true;
+}
+
+function validateTheme(theme) {
+  const invalidKeys = Object.keys(theme).filter(
+    (themeKey) => (ThemeDefinition[themeKey] === undefined),
+  );
+
+  if (invalidKeys.length < 1) return;
+
+  /* eslint-disable no-console */
+  console.warn(`Invalid theme. The following keys are not allowed: ${invalidKeys.join(', ')}. Use the following definition for reference.`);
+  console.warn(ThemeDefinition);
+  /* eslint-enable no-console */
+}
 
 /**
  * The DocFlux Document (exported as Document).
@@ -66,47 +96,55 @@ const defaultDocumentStyling = {
 class PDFDocument extends Document {
   static parser = Parser;
 
-  static documentSettings() {
-    return {
-      name: 'New Document.pdf',
-    };
-  }
+  static documentTheme = null;
 
-  static documentStyling = null;
-
-  // DEPRECATED: Use documentStyling now
-  static styleSheet() { return {}; }
-
-  // DEPRECATED: Use documentStyling now
-  static tableLayouts() { return tableLayouts; }
-
-  static createDocument(docDefinition, props) {
-    const docStyling = defaultDocumentStyling;
-    const definedDocStyling = this.documentStyling || {};
-    docStyling.fonts = definedDocStyling.fonts || docStyling.fonts;
-    docStyling.default = definedDocStyling.default || docStyling.default;
-    if (!docStyling.default.font) {
-      const availableFonts = Object.keys(docStyling.fonts);
-      if (availableFonts.length > 0) {
-        docStyling.default.font = availableFonts[0];
-      } else {
-        docStyling.default.font = 'Roboto';
-      }
+  static getDocumentTheme(props) {
+    let definedTheme = this.documentTheme;
+    if (typeof definedTheme === 'function') {
+      definedTheme = definedTheme(props);
     }
-    docStyling.tableLayouts = definedDocStyling.tableLayouts || docStyling.tableLayouts;
-    docStyling.css = {
-      ...docStyling.css,
-      ...(definedDocStyling.css || this.styleSheet()),
-    };
+    const theme = buildDocumentTheme(definedTheme, {
+      css: this.callStyleSheet(props),
+      tableLayouts: this.callTableLayouts(props),
+      settings: this.callDocumentSettings(props),
+    });
 
-    return new GeneratedDocument(
-      docDefinition,
-      this.documentSettings(props),
-      docStyling,
-    );
+    validateTheme(theme);
+    return theme;
   }
 
   static createBuilder() {
+    return null;
+  }
+
+  // DEPRECATED WARNINGS
+  // DEPRECATED: Use documentTheme now
+  static callStyleSheet(props) {
+    if (typeof this.styleSheet === 'function') {
+      deprecated('styleSheet', 'Instead use "documentTheme" property with key "css"');
+      return this.styleSheet(props);
+    }
+
+    return null;
+  }
+
+  // DEPRECATED: Use documentTheme now
+  static callTableLayouts(props) {
+    if (typeof this.tableLayouts === 'function') {
+      deprecated('tableLayouts', 'Instead use "documentTheme" property with key "tableLayouts"');
+      return this.tableLayouts(props);
+    }
+
+    return null;
+  }
+
+  // DEPRECATED: Use documentTheme now
+  static callDocumentSettings(props) {
+    if (typeof this.documentSettings === 'function') {
+      deprecated('documentSettings', 'Instead configure using the "documentTheme" property');
+      return this.documentSettings(props);
+    }
+
     return null;
   }
 }
