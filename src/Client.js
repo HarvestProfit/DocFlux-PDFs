@@ -6,10 +6,10 @@ import PDFDocument from './PDFDocument';
  * @module WebBundlePDFDocument
  */
 class WebBundlePDFDocument {
-  constructor(docDefinition, documentTheme) {
-    const finalDocDefinition = {
+  constructor(docContents, documentTheme) {
+    const pdfmakeDocumentConfig = {
       ...documentTheme,
-      content: docDefinition,
+      content: docContents,
       styles: documentTheme.css,
       name: undefined,
       tableLayouts: undefined,
@@ -17,11 +17,11 @@ class WebBundlePDFDocument {
       css: undefined,
     };
     // Add Headers and footers if defined
-    if (docDefinition.header) finalDocDefinition.header = docDefinition.header;
-    if (docDefinition.footer) finalDocDefinition.footer = docDefinition.footer;
+    if (docContents.header) pdfmakeDocumentConfig.header = docContents.header;
+    if (docContents.footer) pdfmakeDocumentConfig.footer = docContents.footer;
 
     this.doc = window.pdfMake.createPdf(
-      finalDocDefinition,
+      pdfmakeDocumentConfig,
       documentTheme.tableLayouts,
       documentTheme.fonts,
     );
@@ -51,11 +51,11 @@ class WebBundlePDFDocument {
  * @module Client
  */
 class Client extends PDFDocument {
-  static createDocument(docDefinition, props) {
+  static createDocument(docContents, props) {
     const theme = this.getDocumentTheme(props);
 
     return new WebBundlePDFDocument(
-      docDefinition,
+      docContents,
       theme,
     );
   }

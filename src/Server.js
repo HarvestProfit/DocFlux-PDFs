@@ -7,10 +7,10 @@ import PDFDocument from './PDFDocument';
  * @module ServerBundlePDFDocument
  */
 class ServerBundlePDFDocument {
-  constructor(docDefinition, documentTheme) {
-    const finalDocDefinition = {
+  constructor(docContents, documentTheme) {
+    const pdfmakeDocumentConfig = {
       ...documentTheme,
-      content: docDefinition,
+      content: docContents,
       styles: documentTheme.css,
       name: undefined,
       tableLayouts: undefined,
@@ -18,21 +18,28 @@ class ServerBundlePDFDocument {
       css: undefined,
     };
     // Add Headers and footers if defined
-    if (docDefinition.header) finalDocDefinition.header = docDefinition.header;
-    if (docDefinition.footer) finalDocDefinition.footer = docDefinition.footer;
+    if (docContents.header) pdfmakeDocumentConfig.header = docContents.header;
+    if (docContents.footer) pdfmakeDocumentConfig.footer = docContents.footer;
 
     const printer = new PdfPrinter(documentTheme.fonts);
 
     this.doc = printer.createPdfKitDocument(
-      docDefinition,
+      pdfmakeDocumentConfig,
       { tableLayouts: documentTheme.tableLayouts },
     );
     this.documentName = documentTheme.name || 'New Document.pdf';
   }
 
   saveTo(directory) {
-    this.doc.pipe(fs.createWriteStream(`${directory}/${this.documentName}`));
+    return this.saveAs(`${directory}/${this.documentName}`);
+  }
+
+  saveAs(filename) {
+    let ext = '';
+    if (!filename.endsWith('.pdf')) ext = '.pdf';
+    this.doc.pipe(fs.createWriteStream(`${filename}${ext}`));
     this.doc.end();
+    return filename;
   }
 }
 
@@ -41,11 +48,11 @@ class ServerBundlePDFDocument {
  * @module Client
  */
 class Server extends PDFDocument {
-  static createDocument(docDefinition, props) {
+  static createDocument(docContents, props) {
     const theme = this.getDocumentTheme(props);
 
     return new ServerBundlePDFDocument(
-      docDefinition,
+      docContents,
       theme,
     );
   }
