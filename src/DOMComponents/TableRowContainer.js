@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { DOMComponent } from '@harvest-profit/doc-flux';
 
 function stringOrNumber(value) {
-  if (value.match(/^\d+$/)) return parseFloat(value);
+  if (typeof value === 'string' && value.match(/^\d+$/)) return parseFloat(value);
   return value;
 }
 
